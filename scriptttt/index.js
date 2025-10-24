@@ -43,10 +43,37 @@ clickedButton.classList.add("active")
 
 } )
 }
-// {
-//     "category_id": "1001",
-//     "category": "Music"
-// }
+
+let loadVideoDetails= (videoID) => {
+    // console.log(videoID)
+    let url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoID}`
+    fetch(url)
+    .then(resp => resp.json())
+    .then(data => displayVideoDetails(data.video))
+}
+
+let displayVideoDetails = (video) => {
+    console.log(video)
+    document.getElementById("video_details").showModal()
+    let detailsContainer = document.getElementById("details_container")
+
+    detailsContainer.innerHTML=`
+    
+    <div class="card bg-base-100 image-full w-96 shadow-sm">
+  <figure>
+    <img
+      src="${video.thumbnail}"
+      alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.title}</h2>
+    <p>${video.title}</p>
+    
+  </div>
+</div>
+    `
+}
+
 function displayCategory(categories){       //api loop
     // get the container
 let categoryContainer = document.getElementById("category-container")
@@ -124,6 +151,7 @@ videoCard.innerHTML= `
     <p class="text-sm text-gray-500 ">${video.others.views} views</p>
 </div>
   </div>
+  <button onclick=  loadVideoDetails("${video.video_id}") class="btn btn-block">Show detailsx</button>
 </div>
 
 `
@@ -133,3 +161,6 @@ videoContainer.append(videoCard)
 }
 
 loadCategories()
+
+
+
